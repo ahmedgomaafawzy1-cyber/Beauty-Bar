@@ -7,22 +7,24 @@ from datetime import datetime
 
 app = Flask("beauty_bar")
 
-app.secret_key = "beauty-bar-local-secret"
+app.secret_key = os.environ.get("SECRET_KEY", "beauty-bar-local-secret")
+app.config["SESSION_COOKIE_SECURE"] = os.environ.get("RENDER") == "true"
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 CORS(app, supports_credentials=True)
 
-BBASE_DIR = os.path.dirname(os.path.abspath("app.py"))
+BACKEND_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(BACKEND_DIR)
+FRONTEND_DIR = os.path.join(PROJECT_DIR, "frontend")
 
-DATABASE = os.path.join(
-BBASE_DIR,
-"data",
-"beauty_bar.db"
+DATABASE = os.environ.get(
+    "DATABASE_PATH",
+    os.path.join(BACKEND_DIR, "data", "beauty_bar.db")
 )
 
-UPLOAD_FOLDER = os.path.join(
-BBASE_DIR,
-"data",
-"products"
+UPLOAD_FOLDER = os.environ.get(
+    "UPLOAD_FOLDER",
+    os.path.join(BACKEND_DIR, "data", "products")
 )
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
@@ -30,6 +32,7 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
+os.makedirs(os.path.dirname(os.path.abspath(DATABASE)), exist_ok=True)
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # =====================================
@@ -113,6 +116,8 @@ def create_database():
 
     print("Products found in database:", count)
 
+create_database()
+
 
 # =====================================
 
@@ -131,10 +136,7 @@ def product_to_dict(product):
     item = dict(product)
 
     if item.get("image"):
-        item["image"] = (
-            "http://127.0.0.1:5000/"
-            + item["image"].replace("\\", "/")
-        )
+        item["image"] = "/" + item["image"].replace("\\", "/").lstrip("/")
 
     return item
 
@@ -150,6 +152,11 @@ def admin_required():
 
 @app.route("/", methods=["GET"])
 def home():
+    return send_from_directory(FRONTEND_DIR, "index.html")
+
+
+@app.route("/health", methods=["GET"])
+def health():
     return jsonify({
         "message": "Beauty Bar Backend is running!"
     })
@@ -160,8 +167,8 @@ def home():
 
 # =====================================
 
-ADMIN_USERNAME = "beautyadmin"
-ADMIN_PASSWORD = "beautybar123"
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "beautyadmin")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "beautybar123")
 
 @app.route("/api/admin/login", methods=["POST"])
 def admin_login():
@@ -886,12 +893,12 @@ def update_order_status(order_id):
 
 @app.route("/uploads/<filename>", methods=["GET"])
 def uploaded_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
 
- return send_from_directory(
-    UPLOAD_FOLDER,
-    filename
-)
+@app.route("/<path:filename>", methods=["GET"])
+def frontend_file(filename):
+    return send_from_directory(FRONTEND_DIR, filename)
 
 
 # =====================================
@@ -901,8 +908,6 @@ def uploaded_file(filename):
 # =====================================
 
 if __name__ == "__main__":
-    create_database()
-
     print("=====================================")
     print("BEAUTY BAR BACKEND")
     print("Database:", DATABASE)
@@ -914,4 +919,3 @@ if __name__ == "__main__":
         port=5000,
         debug=True
     )
-

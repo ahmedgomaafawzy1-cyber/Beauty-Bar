@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Beauty Bar | Owner Login
+    </title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-family: Arial, sans-serif;
+
+            background:
+
+                radial-gradient(
+                    circle at 20% 20%,
+                    #f1d8e2,
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 80% 80%,
+                    #e8dff2,
+                    transparent 30%
+                ),
+
+                #fcf7f5;
+        }
+
+
+        .login-card {
+
+            width: min(420px, 90%);
+
+            padding: 40px;
+
+            background: white;
+
+            border-radius: 28px;
+
+            text-align: center;
+
+            box-shadow:
+                0 20px 50px
+                rgba(90, 55, 75, 0.15);
+        }
+
+
+        .logo {
+
+            color: #965472;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            letter-spacing: 4px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .login-card h1 {
+
+            color: #704457;
+
+            font-size: 32px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .login-card p {
+
+            color: #806b75;
+
+            font-size: 14px;
+
+            margin-bottom: 28px;
+        }
+
+
+        .form-group {
+
+            text-align: left;
+
+            margin-bottom: 18px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            color: #704457;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #e6d4dd;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            background: #fffafb;
+
+            font-size: 14px;
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #b86f90;
+        }
+
+
+        .login-button {
+
+            width: 100%;
+
+            border: none;
+
+            padding: 14px;
+
+            border-radius: 25px;
+
+            background: #a65d7e;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .login-button:hover {
+
+            background: #914d6d;
+
+            transform: translateY(-2px);
+        }
+
+
+        .message {
+
+            margin-top: 15px;
+
+            min-height: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        .back {
+
+            display: inline-block;
+
+            margin-top: 25px;
+
+            color: #a65d7e;
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-card">
+
+    <div class="logo">
+        BEAUTY BAR
+    </div>
+
+
+    <h1>
+        Owner Login
+    </h1>
+
+
+    <p>
+        Manage your Beauty Bar products
+    </p>
+
+
+    <form id="loginForm">
+
+
+        <div class="form-group">
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                required
+            >
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="login-button"
+        >
+            Login
+        </button>
+
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+
+    </form>
+
+
+    <a
+        href="index.html"
+        class="back"
+    >
+        ← Back to Beauty Bar
+    </a>
+
+</div>
+
+
+<script>
+
+const API_URL =
+    "http://127.0.0.1:5000";
+
+
+const loginForm =
+    document.getElementById(
+        "loginForm"
+    );
+
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+loginForm.addEventListener(
+    "submit",
+    async function (event) {
+
+        event.preventDefault();
+
+
+        const username =
+            document.getElementById(
+                "username"
+            ).value;
+
+
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/admin/login`,
+                    {
+                        method: "POST",
+
+                        credentials: "include",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            username:
+                                username,
+
+                            password:
+                                password
+
+                        })
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.error ||
+                    "Login failed"
+                );
+
+            }
+
+
+            window.location.href =
+                "admin.html";
+
+        }
+
+
+        catch (error) {
+
+            message.textContent =
+                error.message;
+
+            message.style.color =
+                "#a65063";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

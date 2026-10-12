@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Beauty Bar</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #fcf7f5;
+        color: #5b3b4b;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    .navbar {
+        height: 76px;
+        padding: 0 7%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fcf7f5;
+        border-bottom: 1px solid #eadde3;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .logo {
+        font-size: 21px;
+        font-weight: bold;
+        letter-spacing: 3px;
+        color: #965472;
+    }
+
+    .navbar nav {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .navbar nav a {
+        text-decoration: none;
+        color: #765867;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .navbar nav a:hover {
+        color: #b56688;
+    }
+
+    /* =========================
+       LANGUAGE TOGGLE
+    ========================= */
+
+    .language-toggle {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .lang-text {
+        font-size: 10px;
+        font-weight: bold;
+        color: #765867;
+    }
+
+    .toggle-switch {
+        width: 42px;
+        height: 22px;
+        background: #eadde3;
+        border-radius: 20px;
+        position: relative;
+        padding: 3px;
+        transition: 0.3s ease;
+    }
+
+    .toggle-circle {
+        width: 16px;
+        height: 16px;
+        background: #a65d7e;
+        border-radius: 50%;
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        transition: 0.3s ease;
+        box-shadow: 0 2px 5px rgba(90, 55, 75, 0.2);
+    }
+
+    .language-toggle.ar .toggle-circle {
+        left: 23px;
+    }
+
+    .language-toggle:hover .toggle-switch {
+        background: #e2ced8;
+    }
+
+    /* =========================
+       BRAND
+    ========================= */
+
+    .brand {
+        min-height: 620px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 60px 20px;
+
+        background:
+            radial-gradient(
+                circle at 20% 30%,
+                #f1d8e2,
+                transparent 30%
+            ),
+            radial-gradient(
+                circle at 80% 65%,
+                #e8dff2,
+                transparent 30%
+            ),
+            #fcf7f5;
+
+        position: relative;
+        overflow: hidden;
+    }
+
+    .brand p {
+        color: #a65d7e;
+        font-size: 11px;
+        font-weight: bold;
+        letter-spacing: 5px;
+        margin-bottom: 25px;
+    }
+
+    .brand h1 {
+        font-size: clamp(65px, 11vw, 150px);
+        line-height: 0.9;
+        letter-spacing: 12px;
+        color: #6d4055;
+        font-weight: 900;
+    }
+
+    .brand span {
+        margin-top: 25px;
+        font-size: 17px;
+        color: #806673;
+    }
+
+    .main-button {
+        margin-top: 30px;
+        text-decoration: none;
+        background: #a65d7e;
+        color: white;
+        padding: 13px 30px;
+        border-radius: 30px;
+        transition: 0.3s;
+    }
+
+    .main-button:hover {
+        transform: translateY(-4px);
+        background: #914d6d;
+    }
+
+    /* =========================
+       ABOUT
+    ========================= */
+
+    .about {
+        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 60px 20px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #f2e4ea,
+                #eee5f4
+            );
+    }
+
+    .about h2 {
+        font-size: 45px;
+        color: #704355;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .about p.description {
+        max-width: 550px;
+        color: #7b6671;
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+
+    /* =========================
+       WHATSAPP
+    ========================= */
+
+    .whatsapp-button {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 12px 25px;
+        border-radius: 30px;
+        background: #a65d7e;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .whatsapp-button:hover {
+        background: #914d6d;
+        transform: translateY(-3px);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+        padding: 32px 20px;
+        text-align: center;
+        background: #4e3442;
+        color: white;
+    }
+
+    .footer-brand {
+        font-size: 19px;
+        font-weight: bold;
+        letter-spacing: 4px;
+        margin-bottom: 9px;
+    }
+
+    .linkedin-link {
+        display: inline-block;
+        color: #d9b8c7;
+        text-decoration: none;
+        font-size: 10px;
+        margin-bottom: 7px;
+        transition: 0.3s;
+    }
+
+    .linkedin-link:hover {
+        color: white;
+    }
+
+    footer p {
+        color: #bdaab4;
+        font-size: 10px;
+    }
+
+    /* =========================
+       ARABIC
+    ========================= */
+
+    body.arabic {
+        direction: rtl;
+    }
+
+    body.arabic .navbar {
+        direction: rtl;
+    }
+
+    body.arabic .brand,
+    body.arabic .about,
+    body.arabic footer {
+        direction: rtl;
+    }
+
+    body.arabic .brand h1 {
+        letter-spacing: 5px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 800px) {
+
+        .navbar nav {
+            gap: 12px;
+        }
+
+        .navbar nav a {
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width: 550px) {
+
+        .navbar {
+            padding: 0 4%;
+        }
+
+        .navbar nav {
+            gap: 8px;
+        }
+
+        .navbar nav a {
+            font-size: 10px;
+        }
+
+        .language-toggle {
+            gap: 3px;
+        }
+
+        .lang-text {
+            font-size: 9px;
+        }
+
+        .toggle-switch {
+            width: 38px;
+            height: 20px;
+        }
+
+        .toggle-circle {
+            width: 14px;
+            height: 14px;
+        }
+
+        .language-toggle.ar .toggle-circle {
+            left: 21px;
+        }
+
+        .brand h1 {
+            font-size: 55px;
+            letter-spacing: 6px;
+        }
+
+        .about h2 {
+            font-size: 35px;
+        }
+    }
+</style>
+
+
+</head>
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<header class="navbar">
+
+    <div class="logo">
+        BEAUTY BAR
+    </div>
+
+    <nav>
+
+        <a href="#home" id="navHome">
+            Home
+        </a>
+
+        <a href="products.html" id="navSkin">
+            Skin Care
+        </a>
+
+        <a href="#about" id="navAbout">
+            About
+        </a>
+
+        <a href="owner.html" id="navOwner">
+            Owner
+        </a>
+
+        <!-- LANGUAGE SWITCH -->
+
+        <div
+            class="language-toggle"
+            id="languageToggle"
+            onclick="toggleLanguage()"
+        >
+
+            <span class="lang-text">
+                EN
+            </span>
+
+            <div class="toggle-switch">
+                <div class="toggle-circle"></div>
+            </div>
+
+            <span class="lang-text">
+                AR
+            </span>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+<!-- BRAND -->
+
+<section class="brand" id="home">
+
+    <p id="brandSmall">
+        SKIN CARE • SELF CARE
+    </p>
+
+    <h1>
+        BEAUTY BAR
+    </h1>
+
+    <span id="brandText">
+        Your skin. Your ritual.
+    </span>
+
+    <a
+        href="products.html"
+        class="main-button"
+        id="exploreButton"
+    >
+        Explore
+    </a>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section
+    class="about"
+    id="about"
+>
+
+    <p
+        class="section-title"
+        id="aboutSmall"
+    >
+        ABOUT BEAUTY BAR
+    </p>
+
+    <h2 id="aboutTitle">
+        Beauty in simplicity.
+    </h2>
+
+    <p
+        class="description"
+        id="aboutDescription"
+    >
+        Simple skin care.
+        Beautiful experience.
+        Confidence every day.
+    </p>
+
+    <a
+        href="https://chat.whatsapp.com/Is7nr2aMgKH1gvi6ZIf5AF?s=cl&p=a&mlu=4"
+        target="_blank"
+        class="whatsapp-button"
+        id="whatsappButton"
+    >
+        Join Our WhatsApp Community
+    </a>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-brand">
+        BEAUTY BAR
+    </div>
+
+    <a
+        href="https://www.linkedin.com/in/noha-ahmed-6ab382416"
+        target="_blank"
+        class="linkedin-link"
+    >
+        LinkedIn
+    </a>
+
+    <p>
+        © 2026 Beauty Bar
+    </p>
+
+</footer>
+
+
+<!-- LANGUAGE SCRIPT -->
+
+<script>
+
+    let currentLanguage =
+        localStorage.getItem("beautyBarLanguage") || "en";
+
+
+    function updateLanguage() {
+
+        const toggle =
+            document.getElementById("languageToggle");
+
+
+        if (currentLanguage === "ar") {
+
+            toggle.classList.add("ar");
+
+            document.body.classList.add("arabic");
+
+            document.documentElement.lang = "ar";
+
+
+            document.getElementById("navHome").textContent =
+                "الرئيسية";
+
+            document.getElementById("navSkin").textContent =
+                "العناية بالبشرة";
+
+            document.getElementById("navAbout").textContent =
+                "من نحن";
+
+            document.getElementById("navOwner").textContent =
+                "المالك";
+
+
+            document.getElementById("brandSmall").textContent =
+                "العناية بالبشرة • العناية بالنفس";
+
+            document.getElementById("brandText").textContent =
+                "بشرتك. طقوسك الخاصة.";
+
+            document.getElementById("exploreButton").textContent =
+                "استكشفي";
+
+
+            document.getElementById("aboutSmall").textContent =
+                "عن بيوتي بار";
+
+            document.getElementById("aboutTitle").textContent =
+                "الجمال في البساطة.";
+
+            document.getElementById("aboutDescription").textContent =
+                "عناية بسيطة بالبشرة. تجربة جميلة. وثقة كل يوم.";
+
+            document.getElementById("whatsappButton").textContent =
+                "انضمي إلى مجتمعنا على واتساب";
+
+        }
+
+        else {
+
+            toggle.classList.remove("ar");
+
+            document.body.classList.remove("arabic");
+
+            document.documentElement.lang = "en";
+
+
+            document.getElementById("navHome").textContent =
+                "Home";
+
+            document.getElementById("navSkin").textContent =
+                "Skin Care";
+
+            document.getElementById("navAbout").textContent =
+                "About";
+
+            document.getElementById("navOwner").textContent =
+                "Owner";
+
+
+            document.getElementById("brandSmall").textContent =
+                "SKIN CARE • SELF CARE";
+
+            document.getElementById("brandText").textContent =
+                "Your skin. Your ritual.";
+
+            document.getElementById("exploreButton").textContent =
+                "Explore";
+
+
+            document.getElementById("aboutSmall").textContent =
+                "ABOUT BEAUTY BAR";
+
+            document.getElementById("aboutTitle").textContent =
+                "Beauty in simplicity.";
+
+            document.getElementById("aboutDescription").textContent =
+                "Simple skin care. Beautiful experience. Confidence every day.";
+
+            document.getElementById("whatsappButton").textContent =
+                "Join Our WhatsApp Community";
+        }
+
+
+        localStorage.setItem(
+            "beautyBarLanguage",
+            currentLanguage
+        );
+    }
+
+
+    function toggleLanguage() {
+
+        if (currentLanguage === "en") {
+            currentLanguage = "ar";
+        }
+        else {
+            currentLanguage = "en";
+        }
+
+        updateLanguage();
+    }
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+            updateLanguage();
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

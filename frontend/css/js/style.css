@@ -1,0 +1,493 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fcf7f5;
+    color: #5b3b4b;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    height: 76px;
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fcf7f5;
+    border-bottom: 1px solid #eadde3;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #965472;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.navbar nav a {
+    text-decoration: none;
+    color: #765867;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.navbar nav a:hover {
+    color: #b56688;
+}
+
+
+/* =========================
+   LANGUAGE TOGGLE
+========================= */
+
+.language-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.lang-text {
+    font-size: 10px;
+    font-weight: bold;
+    color: #765867;
+}
+
+.toggle-switch {
+    width: 42px;
+    height: 22px;
+    background: #eadde3;
+    border-radius: 20px;
+    position: relative;
+    padding: 3px;
+    transition: 0.3s ease;
+}
+
+.toggle-circle {
+    width: 16px;
+    height: 16px;
+    background: #a65d7e;
+    border-radius: 50%;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    transition: 0.3s ease;
+    box-shadow: 0 2px 5px rgba(90, 55, 75, 0.2);
+}
+
+.language-toggle.ar .toggle-circle {
+    left: 23px;
+}
+
+.language-toggle:hover .toggle-switch {
+    background: #e2ced8;
+}
+
+
+/* =========================
+   BRAND
+========================= */
+
+.brand {
+    min-height: 620px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            #f1d8e2,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 65%,
+            #e8dff2,
+            transparent 30%
+        ),
+        #fcf7f5;
+    position: relative;
+    overflow: hidden;
+}
+
+.brand p {
+    color: #a65d7e;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    margin-bottom: 25px;
+}
+
+.brand h1 {
+    font-size: clamp(65px, 11vw, 150px);
+    line-height: 0.9;
+    letter-spacing: 12px;
+    color: #6d4055;
+    font-weight: 900;
+}
+
+.brand span {
+    margin-top: 25px;
+    font-size: 17px;
+    color: #806673;
+}
+
+.main-button {
+    margin-top: 30px;
+    text-decoration: none;
+    background: #a65d7e;
+    color: white;
+    padding: 13px 30px;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.main-button:hover {
+    transform: translateY(-4px);
+    background: #914d6d;
+}
+
+
+/* =========================
+   SERVICES
+========================= */
+
+.services {
+    padding: 95px 7%;
+    background: #fffdfb;
+}
+
+.section-title {
+    text-align: center;
+    color: #a65d7e;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.services h2 {
+    text-align: center;
+    font-size: 40px;
+    color: #6d4055;
+    margin: 12px 0 50px;
+}
+
+.services-grid {
+    max-width: 1050px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+
+/* =========================
+   SERVICE CARDS
+========================= */
+
+.service-card {
+    min-height: 220px;
+    padding: 30px;
+    border-radius: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow:
+        0 10px 30px
+        rgba(90, 55, 75, 0.10);
+    cursor: pointer;
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow:
+        0 20px 40px
+        rgba(90, 55, 75, 0.18);
+}
+
+.service-card:nth-child(1) {
+    background: #f8d9e5;
+}
+
+.service-card:nth-child(2) {
+    background: #e9def6;
+}
+
+.service-card:nth-child(3) {
+    background: #dff0eb;
+}
+
+.service-card:nth-child(4) {
+    background: #faefcf;
+}
+
+.service-card:nth-child(5) {
+    background: #deedf8;
+}
+
+.service-icon {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.service-card h3 {
+    color: #71465a;
+    font-size: 21px;
+    margin-bottom: 7px;
+}
+
+.service-card p {
+    color: #816b75;
+    font-size: 13px;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    background:
+        linear-gradient(
+            135deg,
+            #f2e4ea,
+            #eee5f4
+        );
+}
+
+.about h2 {
+    font-size: 45px;
+    color: #704355;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.about p.description {
+    max-width: 550px;
+    color: #7b6671;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+.whatsapp-button {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 12px 25px;
+    border-radius: 30px;
+    background: #a65d7e;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.whatsapp-button:hover {
+    background: #914d6d;
+    transform: translateY(-3px);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    padding: 32px 20px;
+    text-align: center;
+    background: #4e3442;
+    color: white;
+}
+
+.footer-brand {
+    font-size: 19px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    margin-bottom: 9px;
+}
+
+.linkedin-link {
+    display: inline-block;
+    color: #d9b8c7;
+    text-decoration: none;
+    font-size: 10px;
+    margin-bottom: 7px;
+    transition: 0.3s;
+}
+
+.linkedin-link:hover {
+    color: white;
+}
+
+footer p {
+    color: #bdaab4;
+    font-size: 10px;
+}
+
+
+/* =========================
+   ARABIC
+========================= */
+
+body.arabic {
+    direction: rtl;
+}
+
+body.arabic .navbar {
+    direction: rtl;
+}
+
+body.arabic .brand,
+body.arabic .services,
+body.arabic .about,
+body.arabic footer {
+    direction: rtl;
+}
+
+body.arabic .brand h1 {
+    letter-spacing: 5px;
+}
+
+
+/* =========================
+   TABLET
+   550px - 800px
+========================= */
+
+@media (max-width: 800px) {
+
+    .navbar nav {
+        gap: 12px;
+    }
+
+    .navbar nav a {
+        font-size: 12px;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* =========================
+   MOBILE
+   Amazon / Noon Style
+========================= */
+
+@media (max-width: 550px) {
+
+    .navbar {
+        padding: 0 4%;
+    }
+
+    .navbar nav {
+        gap: 8px;
+    }
+
+    .navbar nav a {
+        font-size: 10px;
+    }
+
+    .language-toggle {
+        gap: 3px;
+    }
+
+    .lang-text {
+        font-size: 9px;
+    }
+
+    .toggle-switch {
+        width: 38px;
+        height: 20px;
+    }
+
+    .toggle-circle {
+        width: 14px;
+        height: 14px;
+    }
+
+    .language-toggle.ar .toggle-circle {
+        left: 21px;
+    }
+
+
+    /* TWO CARDS ON MOBILE */
+
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .service-card {
+        min-height: 200px;
+        padding: 20px 12px;
+        border-radius: 18px;
+    }
+
+    .service-icon {
+        font-size: 30px;
+        margin-bottom: 8px;
+    }
+
+    .service-card h3 {
+        font-size: 16px;
+        margin-bottom: 6px;
+    }
+
+    .service-card p {
+        font-size: 11px;
+        line-height: 1.4;
+    }
+
+
+    .brand h1 {
+        font-size: 55px;
+        letter-spacing: 6px;
+    }
+
+    .about h2 {
+        font-size: 35px;
+    }
+
+}

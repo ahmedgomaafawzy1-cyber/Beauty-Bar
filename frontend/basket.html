@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Beauty Bar | Basket</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fcf7f5;
+            color: #5b3b4b;
+        }
+
+        .navbar {
+            height: 76px;
+            padding: 0 7%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: #fcf7f5;
+
+            border-bottom: 1px solid #eadde3;
+        }
+
+        .logo {
+            color: #965472;
+            font-size: 21px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #a65d7e;
+            font-size: 14px;
+        }
+
+        .basket-page {
+            max-width: 1000px;
+            margin: 70px auto;
+            padding: 0 25px;
+        }
+
+        h1 {
+            color: #6d4055;
+            text-align: center;
+            font-size: 45px;
+            margin-bottom: 45px;
+        }
+
+        .basket-item {
+            display: grid;
+            grid-template-columns: 110px 1fr auto;
+            gap: 20px;
+            align-items: center;
+
+            background: white;
+
+            padding: 18px;
+
+            margin-bottom: 15px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(90, 55, 75, 0.08);
+        }
+
+        .basket-image {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 15px;
+            background: #f3e5eb;
+        }
+
+        .basket-item h3 {
+            color: #704457;
+            margin-bottom: 6px;
+        }
+
+        .basket-item p {
+            color: #806b75;
+            font-size: 13px;
+        }
+
+        .quantity {
+            margin-top: 10px;
+            color: #9b6f84;
+            font-size: 13px;
+        }
+
+        .item-price {
+            color: #a65d7e;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .remove-button {
+            border: none;
+            background: transparent;
+            color: #a65063;
+            cursor: pointer;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .summary {
+            margin-top: 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f2e4ea,
+                    #eee5f4
+                );
+
+            border-radius: 25px;
+
+            padding: 30px;
+
+            text-align: right;
+        }
+
+        .summary h2 {
+            color: #704457;
+            margin-bottom: 15px;
+        }
+
+        .total {
+            font-size: 22px;
+            font-weight: bold;
+            color: #a65d7e;
+            margin-bottom: 20px;
+        }
+
+        .checkout-button {
+            border: none;
+            padding: 13px 28px;
+            border-radius: 25px;
+
+            background: #a65d7e;
+            color: white;
+
+            cursor: pointer;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 80px 20px;
+            color: #806b75;
+        }
+
+        @media (max-width: 650px) {
+
+            .basket-item {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .basket-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .item-price {
+                grid-column: 2;
+                text-align: left;
+            }
+
+            .summary {
+                text-align: center;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="logo">
+        BEAUTY BAR
+    </div>
+
+    <a
+        href="index.html"
+        class="back-link"
+    >
+        ← Back to Beauty Bar
+    </a>
+
+</header>
+
+
+<main class="basket-page">
+
+    <h1>
+        Your Basket
+    </h1>
+
+    <div id="basket"></div>
+
+</main>
+
+
+<script>
+
+function loadBasket() {
+
+    const basket =
+        JSON.parse(
+            localStorage.getItem(
+                "beautyBarBasket"
+            )
+        ) || [];
+
+
+    const container =
+        document.getElementById(
+            "basket"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (basket.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+                <h2>Your basket is empty.</h2>
+                <br>
+                <a href="index.html">
+                    Continue Shopping
+                </a>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    let total = 0;
+
+
+    basket.forEach(
+        function (item, index) {
+
+            const itemTotal =
+                item.price * item.quantity;
+
+
+            total += itemTotal;
+
+
+            const element =
+                document.createElement(
+                    "div"
+                );
+
+
+            element.className =
+                "basket-item";
+
+
+            const imageHTML =
+                item.image
+                ?
+                `
+                    <img
+                        src="${item.image}"
+                        class="basket-image"
+                        alt="${item.name}"
+                    >
+                `
+                :
+                `
+                    <div class="basket-image"></div>
+                `;
+
+
+            element.innerHTML = `
+
+                ${imageHTML}
+
+                <div>
+
+                    <h3>
+                        ${item.name}
+                    </h3>
+
+                    <p>
+                        ${item.category}
+                    </p>
+
+                    <div class="quantity">
+                        Quantity: ${item.quantity}
+                    </div>
+
+                    <button
+                        class="remove-button"
+                    >
+                        Remove
+                    </button>
+
+                </div>
+
+                <div class="item-price">
+                    ${itemTotal} EGP
+                </div>
+
+            `;
+
+
+            element
+                .querySelector(
+                    ".remove-button"
+                )
+                .addEventListener(
+                    "click",
+                    function () {
+
+                        basket.splice(
+                            index,
+                            1
+                        );
+
+
+                        localStorage.setItem(
+                            "beautyBarBasket",
+                            JSON.stringify(
+                                basket
+                            )
+                        );
+
+
+                        loadBasket();
+
+                    }
+                );
+
+
+            container.appendChild(
+                element
+            );
+
+        }
+    );
+
+
+    const summary =
+        document.createElement(
+            "div"
+        );
+
+
+    summary.className =
+        "summary";
+
+
+    summary.innerHTML = `
+
+        <h2>
+            Order Summary
+        </h2>
+
+        <div class="total">
+            Total: ${total} EGP
+        </div>
+
+        <button
+            class="checkout-button"
+        >
+            Checkout
+        </button>
+
+    `;
+
+
+    summary
+    .querySelector(
+        ".checkout-button"
+    )
+    .addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "checkout.html";
+
+        }
+    );
+
+
+    container.appendChild(
+        summary
+    );
+
+}
+
+
+loadBasket();
+
+</script>
+
+
+</body>
+
+</html>

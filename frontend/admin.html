@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Bar | Owner Dashboard</title>
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #fcf7f5;
+        color: #5b3b4b;
+        min-height: 100vh;
+    }
+
+    .admin-header {
+        padding: 25px 7%;
+        background: #4e3442;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .admin-logo {
+        font-size: 22px;
+        font-weight: bold;
+        letter-spacing: 3px;
+    }
+
+    .admin-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .admin-label {
+        font-size: 12px;
+        color: #e6c9d7;
+        letter-spacing: 2px;
+    }
+
+    .logout-button {
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        background: #765567;
+        color: white;
+        cursor: pointer;
+        font-size: 11px;
+    }
+
+    .dashboard {
+        max-width: 1050px;
+        margin: 55px auto;
+        padding: 0 25px;
+    }
+
+    .title {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .title h1 {
+        color: #704457;
+        font-size: 42px;
+        margin-bottom: 8px;
+    }
+
+    .title p {
+        color: #856b77;
+    }
+
+    .form-card {
+        max-width: 700px;
+        margin: auto;
+        padding: 35px;
+        background: white;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(90, 55, 75, 0.10);
+    }
+
+    .form-title {
+        color: #704457;
+        margin-bottom: 25px;
+        font-size: 22px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 13px;
+        font-weight: bold;
+        color: #704457;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #e6d4dd;
+        border-radius: 12px;
+        outline: none;
+        font-family: Arial, sans-serif;
+        background: #fffafb;
+    }
+
+    .form-group textarea {
+        min-height: 110px;
+        resize: vertical;
+    }
+
+    .image-preview {
+        display: none;
+        width: 170px;
+        height: 170px;
+        object-fit: cover;
+        border-radius: 18px;
+        margin-top: 12px;
+    }
+
+    .form-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .add-button {
+        flex: 1;
+        border: none;
+        padding: 13px;
+        border-radius: 25px;
+        background: #a65d7e;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .cancel-button {
+        display: none;
+        padding: 13px 22px;
+        border: none;
+        border-radius: 25px;
+        background: #ddd2d7;
+        color: #705866;
+        cursor: pointer;
+    }
+
+    .message {
+        margin-top: 15px;
+        text-align: center;
+        min-height: 20px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .products-title {
+        text-align: center;
+        color: #704457;
+        margin: 60px 0 25px;
+        font-size: 30px;
+    }
+
+    #products {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .product-card {
+        overflow: hidden;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(90, 55, 75, 0.08);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 210px;
+        object-fit: cover;
+        display: block;
+        background: #f5e9ee;
+    }
+
+    .no-image {
+        width: 100%;
+        height: 210px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9c7d8c;
+        background: #f5e9ee;
+    }
+
+    .product-content {
+        padding: 20px;
+    }
+
+    .product-content h3 {
+        color: #704457;
+        margin-bottom: 7px;
+    }
+
+    .price {
+        color: #a65d7e;
+        font-weight: bold;
+        margin-bottom: 7px;
+    }
+
+    .description {
+        font-size: 13px;
+        color: #806b75;
+        margin-bottom: 12px;
+    }
+
+    .stock-status {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .available {
+        background: #e3f3e7;
+        color: #4d8a5d;
+    }
+
+    .out-of-stock {
+        background: #f7e1e5;
+        color: #a95063;
+    }
+
+    .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .edit-button,
+    .delete-button,
+    .stock-button {
+        border: none;
+        padding: 9px;
+        border-radius: 18px;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .edit-button {
+        background: #ede2f2;
+        color: #765270;
+    }
+
+    .delete-button {
+        background: #f7e1e5;
+        color: #a65063;
+    }
+
+    .stock-button {
+        grid-column: 1 / -1;
+        background: #e9e0e5;
+        color: #705866;
+    }
+
+    .orders-section {
+        margin-top: 60px;
+        padding: 30px;
+        background: white;
+        border-radius: 20px;
+    }
+
+    .order-card {
+        border: 1px solid #eadde3;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 15px;
+        background: #fffafb;
+    }
+
+    .order-card h3 {
+        color: #704457;
+        margin-bottom: 10px;
+    }
+
+    .order-info {
+        font-size: 13px;
+        color: #806b75;
+        margin-bottom: 5px;
+    }
+
+    .order-items {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #eadde3;
+    }
+
+    .order-item {
+        font-size: 13px;
+        margin-bottom: 5px;
+        color: #705866;
+    }
+
+    .order-status {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: #ede2f2;
+        color: #765270;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    @media (max-width: 800px) {
+        #products {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .admin-right {
+            flex-direction: column;
+            gap: 5px;
+        }
+    }
+
+    @media (max-width: 550px) {
+        #products {
+            grid-template-columns: 1fr;
+        }
+
+        .form-card {
+            padding: 25px;
+        }
+
+        .title h1 {
+            font-size: 32px;
+        }
+    }
+</style>
+
+
+</head>
+
+<body>
+
+
+<header class="admin-header">
+
+    <div class="admin-logo">
+        BEAUTY BAR
+    </div>
+
+    <div class="admin-right">
+
+        <div class="admin-label">
+            OWNER DASHBOARD
+        </div>
+
+        <button class="logout-button" id="logoutButton">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+<main class="dashboard">
+
+    <div class="title">
+
+        <h1 id="formTitle">
+            Add Product
+        </h1>
+
+        <p>
+            Manage your Beauty Bar products
+        </p>
+
+    </div>
+
+    <!-- ADD / EDIT PRODUCT -->
+
+    <form class="form-card" id="productForm">
+
+        <h2 class="form-title">
+            Product Information
+        </h2>
+
+        <div class="form-group">
+
+            <label for="name">
+                Product Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                required
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="price">
+                Price
+            </label>
+
+            <input
+                type="number"
+                id="price"
+                min="0"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="stockStatus">
+                Stock Status
+            </label>
+
+            <select id="stockStatus">
+
+                <option value="Available">
+                    Available
+                </option>
+
+                <option value="Out of Stock">
+                    Out of Stock
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="description">
+                Description
+            </label>
+
+            <textarea id="description"></textarea>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="image">
+                Product Image
+            </label>
+
+            <input
+                type="file"
+                id="image"
+                accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
+            >
+
+            <img
+                id="imagePreview"
+                class="image-preview"
+                alt="Product preview"
+            >
+
+        </div>
+
+        <div class="form-buttons">
+
+            <button
+                type="submit"
+                class="add-button"
+                id="submitButton"
+            >
+                Add Product
+            </button>
+
+            <button
+                type="button"
+                class="cancel-button"
+                id="cancelButton"
+            >
+                Cancel Edit
+            </button>
+
+        </div>
+
+        <div id="message" class="message"></div>
+
+    </form>
+
+
+    <!-- CURRENT PRODUCTS -->
+
+    <h2 class="products-title">
+        Current Products
+    </h2>
+
+    <div id="products"></div>
+
+
+    <!-- CUSTOMER ORDERS -->
+
+    <section class="orders-section">
+
+        <h2 class="products-title">
+            Customer Orders
+        </h2>
+
+        <div id="orders">
+
+            <p style="text-align:center; color:#806b75;">
+                Loading orders...
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    const API_URL = "http://127.0.0.1:5000";
+
+    const productForm =
+        document.getElementById("productForm");
+
+    const productsContainer =
+        document.getElementById("products");
+
+    const message =
+        document.getElementById("message");
+
+    const imageInput =
+        document.getElementById("image");
+
+    const imagePreview =
+        document.getElementById("imagePreview");
+
+    const formTitle =
+        document.getElementById("formTitle");
+
+    const submitButton =
+        document.getElementById("submitButton");
+
+    const cancelButton =
+        document.getElementById("cancelButton");
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+    const ordersContainer =
+        document.getElementById("orders");
+
+    let editingProductId = null;
+
+
+    // =========================
+    // CHECK LOGIN
+    // =========================
+
+    async function checkLogin() {
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/api/admin/me`,
+                {
+                    credentials: "include"
+                }
+            );
+
+            const data = await response.json();
+
+            if (!data.logged_in) {
+
+                window.location.href =
+                    "admin-login.html";
+
+                return false;
+            }
+
+            return true;
+
+        } catch (error) {
+
+            console.error(error);
+
+            window.location.href =
+                "admin-login.html";
+
+            return false;
+        }
+    }
+
+
+    // =========================
+    // IMAGE PREVIEW
+    // =========================
+
+    imageInput.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                imageInput.files[0];
+
+            if (!file) {
+
+                imagePreview.style.display =
+                    "none";
+
+                return;
+            }
+
+            imagePreview.src =
+                URL.createObjectURL(file);
+
+            imagePreview.style.display =
+                "block";
+        }
+    );
+
+
+    // =========================
+    // LOAD PRODUCTS
+    // =========================
+
+    async function loadProducts() {
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/api/products`
+            );
+
+            const products =
+                await response.json();
+
+            productsContainer.innerHTML = "";
+
+            if (!products.length) {
+
+                productsContainer.innerHTML = `
+                    <p style="
+                        text-align:center;
+                        grid-column:1/-1;
+                        color:#806b75;
+                    ">
+                        No products yet.
+                    </p>
+                `;
+
+                return;
+            }
+
+
+            products.forEach(function (product) {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "product-card";
+
+
+                const isAvailable =
+                    product.stock_status ===
+                    "Available";
+
+
+                const imageHTML =
+                    product.image
+                        ? `
+                            <img
+                                src="${product.image}"
+                                class="product-image"
+                                alt="${product.name}"
+                            >
+                        `
+                        : `
+                            <div class="no-image">
+                                No Image
+                            </div>
+                        `;
+
+
+                card.innerHTML = `
+
+                    ${imageHTML}
+
+                    <div class="product-content">
+
+                        <h3>
+                            ${product.name}
+                        </h3>
+
+                        <div class="price">
+                            ${product.price} EGP
+                        </div>
+
+                        <div class="description">
+                            ${product.description || ""}
+                        </div>
+
+                        <span class="
+                            stock-status
+                            ${isAvailable
+                                ? "available"
+                                : "out-of-stock"}
+                        ">
+
+                            ${
+                                isAvailable
+                                    ? "Available"
+                                    : "Out of Stock"
+                            }
+
+                        </span>
+
+
+                        <div class="actions">
+
+                            <button
+                                class="edit-button">
+                                Edit
+                            </button>
+
+                            <button
+                                class="delete-button">
+                                Delete
+                            </button>
+
+                            <button
+                                class="stock-button">
+
+                                ${
+                                    isAvailable
+                                        ? "Mark Out of Stock"
+                                        : "Mark Available"
+                                }
+
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+
+                card
+                    .querySelector(".edit-button")
+                    .addEventListener(
+                        "click",
+                        function () {
+
+                            startEdit(product);
+
+                        }
+                    );
+
+
+                card
+                    .querySelector(".delete-button")
+                    .addEventListener(
+                        "click",
+                        function () {
+
+                            deleteProduct(
+                                product.id
+                            );
+
+                        }
+                    );
+
+
+                card
+                    .querySelector(".stock-button")
+                    .addEventListener(
+                        "click",
+                        function () {
+
+                            changeStock(
+                                product.id,
+                                isAvailable
+                                    ? "Out of Stock"
+                                    : "Available"
+                            );
+
+                        }
+                    );
+
+
+                productsContainer.appendChild(
+                    card
+                );
+
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            productsContainer.innerHTML = `
+
+                <p style="
+                    text-align:center;
+                    color:#a65063;
+                    grid-column:1/-1;
+                ">
+
+                    Could not load products.
+
+                </p>
+            `;
+        }
+    }
+
+
+    // =========================
+    // START EDIT
+    // =========================
+
+    function startEdit(product) {
+
+        editingProductId =
+            product.id;
+
+        formTitle.textContent =
+            "Edit Product";
+
+        submitButton.textContent =
+            "Save Changes";
+
+        cancelButton.style.display =
+            "block";
+
+
+        document.getElementById("name").value =
+            product.name;
+
+        document.getElementById("price").value =
+            product.price;
+
+        document.getElementById("stockStatus").value =
+            product.stock_status;
+
+        document.getElementById("description").value =
+            product.description || "";
+
+
+        imageInput.value = "";
+
+
+        if (product.image) {
+
+            imagePreview.src =
+                product.image;
+
+            imagePreview.style.display =
+                "block";
+
+        }
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+
+    // =========================
+    // RESET FORM
+    // =========================
+
+    function resetForm() {
+
+        editingProductId = null;
+
+        productForm.reset();
+
+        formTitle.textContent =
+            "Add Product";
+
+        submitButton.textContent =
+            "Add Product";
+
+        cancelButton.style.display =
+            "none";
+
+        imagePreview.src = "";
+
+        imagePreview.style.display =
+            "none";
+    }
+
+
+    cancelButton.addEventListener(
+        "click",
+        function () {
+
+            resetForm();
+
+            message.textContent = "";
+
+        }
+    );
+
+
+    // =========================
+    // ADD / EDIT PRODUCT
+    // =========================
+
+    productForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "name",
+                document.getElementById("name").value
+            );
+
+
+            formData.append(
+                "price",
+                document.getElementById("price").value
+            );
+
+
+            formData.append(
+                "stock_status",
+                document.getElementById(
+                    "stockStatus"
+                ).value
+            );
+
+
+            formData.append(
+                "description",
+                document.getElementById(
+                    "description"
+                ).value
+            );
+
+
+            const file =
+                imageInput.files[0];
+
+            if (file) {
+
+                formData.append(
+                    "image",
+                    file
+                );
+            }
+
+
+            const isEditing =
+                editingProductId !== null;
+
+
+            const url =
+                isEditing
+                    ? `${API_URL}/api/products/${editingProductId}`
+                    : `${API_URL}/api/products`;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method:
+                                isEditing
+                                    ? "PUT"
+                                    : "POST",
+
+                            credentials:
+                                "include",
+
+                            body:
+                                formData
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.error ||
+                        "Operation failed"
+                    );
+                }
+
+
+                message.textContent =
+                    isEditing
+                        ? "Product updated successfully!"
+                        : "Product added successfully!";
+
+                message.style.color =
+                    "#6b9875";
+
+
+                resetForm();
+
+                await loadProducts();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                message.textContent =
+                    error.message;
+
+                message.style.color =
+                    "#a65063";
+            }
+
+        }
+    );
+
+
+    // =========================
+    // DELETE PRODUCT
+    // =========================
+
+    async function deleteProduct(productId) {
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to delete this product?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/products/${productId}`,
+                    {
+                        method: "DELETE",
+                        credentials: "include"
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.error ||
+                    "Could not delete product"
+                );
+            }
+
+
+            await loadProducts();
+
+
+        } catch (error) {
+
+            alert(error.message);
+        }
+    }
+
+
+    // =========================
+    // CHANGE STOCK
+    // =========================
+
+    async function changeStock(
+        productId,
+        newStatus
+    ) {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/products/${productId}/stock`,
+                    {
+                        method: "PUT",
+
+                        credentials:
+                            "include",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            stock_status:
+                                newStatus
+                        })
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.error ||
+                    "Could not update stock"
+                );
+            }
+
+
+            await loadProducts();
+
+
+        } catch (error) {
+
+            alert(error.message);
+        }
+    }
+
+
+    // =========================
+    // LOAD ORDERS
+    // =========================
+
+    async function loadOrders() {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/orders`,
+                    {
+                        credentials:
+                            "include"
+                    }
+                );
+
+
+            const orders =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    orders.error ||
+                    "Could not load orders"
+                );
+            }
+
+
+            ordersContainer.innerHTML =
+                "";
+
+
+            if (!orders.length) {
+
+                ordersContainer.innerHTML = `
+
+                    <p style="
+                        text-align:center;
+                        color:#806b75;
+                    ">
+
+                        No orders yet.
+
+                    </p>
+                `;
+
+                return;
+            }
+
+
+            orders.forEach(function (order) {
+
+                const orderCard =
+                    document.createElement(
+                        "div"
+                    );
+
+                orderCard.className =
+                    "order-card";
+
+
+                let itemsHTML = "";
+
+
+                if (
+                    order.items &&
+                    order.items.length
+                ) {
+
+                    order.items.forEach(
+                        function (item) {
+
+                            itemsHTML += `
+
+                                <div class="order-item">
+
+                                    ${item.product_name}
+                                    × ${item.quantity}
+                                    — ${item.price} EGP
+
+                                </div>
+                            `;
+                        }
+                    );
+                }
+
+
+                orderCard.innerHTML = `
+
+                    <h3>
+                        Order #${order.id}
+                    </h3>
+
+
+                    <div class="order-info">
+
+                        Customer:
+                        ${order.customer_name || ""}
+
+                    </div>
+
+
+                    <div class="order-info">
+
+                        Phone:
+                        ${order.phone || ""}
+
+                    </div>
+
+
+                    <div class="order-info">
+
+                        City:
+                        ${order.city || ""}
+
+                    </div>
+
+
+                    <div class="order-info">
+
+                        Address:
+                        ${order.address || ""}
+
+                    </div>
+
+
+                    <div class="order-info">
+
+                        Total:
+
+                        <strong>
+                            ${order.total} EGP
+                        </strong>
+
+                    </div>
+
+
+                    <div class="order-items">
+
+                        ${itemsHTML}
+
+                    </div>
+
+
+                    <span class="order-status">
+
+                        ${order.status || "Pending"}
+
+                    </span>
+
+                `;
+
+
+                ordersContainer.appendChild(
+                    orderCard
+                );
+
+            });
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            ordersContainer.innerHTML = `
+
+                <p style="
+                    text-align:center;
+                    color:#a65063;
+                ">
+
+                    Could not load orders.
+
+                </p>
+            `;
+        }
+    }
+
+
+    // =========================
+    // LOGOUT
+    // =========================
+
+    logoutButton.addEventListener(
+        "click",
+        async function () {
+
+            try {
+
+                await fetch(
+                    `${API_URL}/api/admin/logout`,
+                    {
+                        method: "POST",
+                        credentials:
+                            "include"
+                    }
+                );
+
+            } finally {
+
+                window.location.href =
+                    "admin-login.html";
+            }
+        }
+    );
+
+
+    // =========================
+    // START
+    // =========================
+
+    (async function () {
+
+        const loggedIn =
+            await checkLogin();
+
+        if (loggedIn) {
+
+            await loadProducts();
+
+            await loadOrders();
+
+        }
+
+    })();
+
+</script>
+
+
+</body>
+
+</html>

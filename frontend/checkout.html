@@ -1,0 +1,968 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Beauty Bar | Checkout</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #fcf7f5;
+        color: #5b3b4b;
+    }
+
+    .navbar {
+        min-height: 76px;
+        padding: 0 7%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fcf7f5;
+        border-bottom: 1px solid #eadde3;
+        gap: 20px;
+    }
+
+    .logo {
+        color: #965472;
+        font-size: 21px;
+        font-weight: bold;
+        letter-spacing: 3px;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+    }
+
+    .back-link {
+        text-decoration: none;
+        color: #a65d7e;
+        font-size: 14px;
+    }
+
+    .language-switcher {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: white;
+        border: 1px solid #eadde3;
+        border-radius: 20px;
+        padding: 4px;
+    }
+
+    .language-btn {
+        border: none;
+        background: transparent;
+        color: #806b75;
+        padding: 7px 11px;
+        border-radius: 16px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .language-btn.active {
+        background: #a65d7e;
+        color: white;
+    }
+
+    .checkout-page {
+        max-width: 1050px;
+        margin: 55px auto;
+        padding: 0 25px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #6d4055;
+        font-size: 42px;
+        margin-bottom: 40px;
+    }
+
+    .checkout-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+
+    .box {
+        background: white;
+        padding: 30px;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(90, 55, 75, 0.08);
+    }
+
+    .box h2 {
+        color: #704457;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        color: #704457;
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 7px;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        padding: 13px 15px;
+        border: 1px solid #eadde3;
+        border-radius: 12px;
+        outline: none;
+        font-family: Arial, sans-serif;
+        color: #5b3b4b;
+        background: #fffafa;
+    }
+
+    input:focus,
+    textarea:focus {
+        border-color: #a65d7e;
+    }
+
+    textarea {
+        min-height: 90px;
+        resize: vertical;
+    }
+
+    .order-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 13px 0;
+        border-bottom: 1px solid #eee3e7;
+        font-size: 14px;
+    }
+
+    .order-item-name {
+        color: #704457;
+    }
+
+    .order-item-price {
+        color: #a65d7e;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .total {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+        font-size: 21px;
+        font-weight: bold;
+        color: #a65d7e;
+    }
+
+    .place-order {
+        width: 100%;
+        margin-top: 25px;
+        padding: 14px;
+        border: none;
+        border-radius: 25px;
+        background: #a65d7e;
+        color: white;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .place-order:hover {
+        background: #914d6d;
+    }
+
+    .place-order:disabled {
+        background: #c8b2bc;
+        cursor: not-allowed;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 50px 20px;
+        color: #806b75;
+    }
+
+    .empty a {
+        color: #a65d7e;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .success {
+        text-align: center;
+        padding: 35px;
+    }
+
+    .success h2 {
+        color: #704457;
+        margin-bottom: 15px;
+    }
+
+    .order-number {
+        color: #a65d7e;
+        font-size: 20px;
+        font-weight: bold;
+        margin: 15px 0;
+    }
+
+    .success a {
+        color: #a65d7e;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    @media (max-width: 750px) {
+        .checkout-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .navbar {
+            padding: 15px 5%;
+            flex-wrap: wrap;
+        }
+
+        .nav-right {
+            gap: 10px;
+        }
+    }
+</style>
+
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+
+<div class="logo">
+    BEAUTY BAR
+</div>
+
+<div class="nav-right">
+
+    <a href="basket.html" class="back-link" id="backLink">
+        ← Back to Basket
+    </a>
+
+    <div class="language-switcher">
+
+        <button
+            class="language-btn active"
+            id="englishBtn"
+            onclick="changeLanguage('en')"
+        >
+            EN
+        </button>
+
+        <button
+            class="language-btn"
+            id="arabicBtn"
+            onclick="changeLanguage('ar')"
+        >
+            AR
+        </button>
+
+    </div>
+
+</div>
+
+
+</header>
+
+<main class="checkout-page">
+
+
+<h1 id="checkoutTitle">
+    Checkout
+</h1>
+
+<div id="checkoutContent">
+
+    <div class="checkout-grid">
+
+        <!-- CUSTOMER INFORMATION -->
+
+        <div class="box">
+
+            <h2 id="customerTitle">
+                Customer Information
+            </h2>
+
+            <form id="orderForm">
+
+                <div class="form-group">
+
+                    <label for="name" id="nameLabel">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        required
+                        placeholder="Enter your full name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="phone" id="phoneLabel">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        required
+                        placeholder="Enter your phone number"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="city" id="cityLabel">
+                        City / Area
+                    </label>
+
+                    <input
+                        type="text"
+                        id="city"
+                        required
+                        placeholder="Enter your city or area"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="address" id="addressLabel">
+                        Full Address
+                    </label>
+
+                    <textarea
+                        id="address"
+                        required
+                        placeholder="Enter your full address"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="notes" id="notesLabel">
+                        Notes (Optional)
+                    </label>
+
+                    <textarea
+                        id="notes"
+                        placeholder="Any additional notes..."
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="place-order"
+                    id="placeOrderButton"
+                >
+                    Place Order
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ORDER SUMMARY -->
+
+        <div class="box">
+
+            <h2 id="orderTitle">
+                Your Order
+            </h2>
+
+            <div id="orderItems"></div>
+
+            <div class="total">
+
+                <span id="totalLabel">
+                    Total
+                </span>
+
+                <span id="orderTotal">
+                    0 EGP
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</main>
+
+<script>
+
+// =====================================
+// LANGUAGE
+// =====================================
+
+let currentLanguage =
+    localStorage.getItem("beautyBarLanguage") || "en";
+
+
+const translations = {
+
+    en: {
+
+        back: "← Back to Basket",
+
+        checkout: "Checkout",
+
+        customer: "Customer Information",
+
+        name: "Full Name",
+
+        namePlaceholder: "Enter your full name",
+
+        phone: "Phone Number",
+
+        phonePlaceholder: "Enter your phone number",
+
+        city: "City / Area",
+
+        cityPlaceholder: "Enter your city or area",
+
+        address: "Full Address",
+
+        addressPlaceholder: "Enter your full address",
+
+        notes: "Notes (Optional)",
+
+        notesPlaceholder: "Any additional notes...",
+
+        order: "Your Order",
+
+        total: "Total",
+
+        placeOrder: "Place Order",
+
+        placing: "Placing Order...",
+
+        empty: "Your basket is empty.",
+
+        continueShopping: "Continue Shopping",
+
+        success: "Order Placed Successfully! ✓",
+
+        thankYou: "Thank you for shopping with Beauty Bar.",
+
+        pending: "Your order is now pending confirmation.",
+
+        orderId: "Order ID:",
+
+        emptyAlert: "Your basket is empty.",
+
+        error:
+            "Could not place your order. Please make sure the Beauty Bar server is running."
+
+    },
+
+
+    ar: {
+
+        back: "← العودة إلى السلة",
+
+        checkout: "إتمام الطلب",
+
+        customer: "بيانات العميل",
+
+        name: "الاسم بالكامل",
+
+        namePlaceholder: "اكتبي الاسم بالكامل",
+
+        phone: "رقم الهاتف",
+
+        phonePlaceholder: "اكتبي رقم الهاتف",
+
+        city: "المدينة / المنطقة",
+
+        cityPlaceholder: "اكتبي المدينة أو المنطقة",
+
+        address: "العنوان بالكامل",
+
+        addressPlaceholder: "اكتبي العنوان بالكامل",
+
+        notes: "ملاحظات (اختياري)",
+
+        notesPlaceholder: "أي ملاحظات إضافية...",
+
+        order: "طلبك",
+
+        total: "الإجمالي",
+
+        placeOrder: "تأكيد الطلب",
+
+        placing: "جاري تأكيد الطلب...",
+
+        empty: "السلة فارغة.",
+
+        continueShopping: "متابعة التسوق",
+
+        success: "تم تأكيد الطلب بنجاح! ✓",
+
+        thankYou: "شكرًا لتسوقك من Beauty Bar.",
+
+        pending: "طلبك الآن في انتظار التأكيد.",
+
+        orderId: "رقم الطلب:",
+
+        emptyAlert: "السلة فارغة.",
+
+        error:
+            "تعذر تنفيذ الطلب. من فضلك تأكدي من تشغيل خادم Beauty Bar."
+
+    }
+
+};
+
+
+// =====================================
+// CHANGE LANGUAGE
+// =====================================
+
+function changeLanguage(language) {
+
+    currentLanguage = language;
+
+    localStorage.setItem(
+        "beautyBarLanguage",
+        language
+    );
+
+    const t = translations[language];
+
+    document.documentElement.lang = language;
+
+    document.documentElement.dir =
+        language === "ar" ? "rtl" : "ltr";
+
+
+    document.getElementById("backLink").textContent =
+        t.back;
+
+    document.getElementById("checkoutTitle").textContent =
+        t.checkout;
+
+    document.getElementById("customerTitle").textContent =
+        t.customer;
+
+    document.getElementById("nameLabel").textContent =
+        t.name;
+
+    document.getElementById("phoneLabel").textContent =
+        t.phone;
+
+    document.getElementById("cityLabel").textContent =
+        t.city;
+
+    document.getElementById("addressLabel").textContent =
+        t.address;
+
+    document.getElementById("notesLabel").textContent =
+        t.notes;
+
+    document.getElementById("orderTitle").textContent =
+        t.order;
+
+    document.getElementById("totalLabel").textContent =
+        t.total;
+
+
+    document.getElementById("name").placeholder =
+        t.namePlaceholder;
+
+    document.getElementById("phone").placeholder =
+        t.phonePlaceholder;
+
+    document.getElementById("city").placeholder =
+        t.cityPlaceholder;
+
+    document.getElementById("address").placeholder =
+        t.addressPlaceholder;
+
+    document.getElementById("notes").placeholder =
+        t.notesPlaceholder;
+
+
+    document.getElementById("placeOrderButton").textContent =
+        t.placeOrder;
+
+
+    document
+        .getElementById("englishBtn")
+        .classList.toggle(
+            "active",
+            language === "en"
+        );
+
+    document
+        .getElementById("arabicBtn")
+        .classList.toggle(
+            "active",
+            language === "ar"
+        );
+
+
+    loadOrderSummary();
+
+}
+
+
+// =====================================
+// GET BASKET
+// =====================================
+
+function getBasket() {
+
+    return JSON.parse(
+        localStorage.getItem("beautyBarBasket")
+    ) || [];
+
+}
+
+
+// =====================================
+// LOAD ORDER SUMMARY
+// =====================================
+
+function loadOrderSummary() {
+
+    const basket = getBasket();
+
+    const container =
+        document.getElementById("orderItems");
+
+    const totalElement =
+        document.getElementById("orderTotal");
+
+    const placeButton =
+        document.querySelector(".place-order");
+
+    const t =
+        translations[currentLanguage];
+
+    container.innerHTML = "";
+
+    if (basket.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+
+                <h3>
+                    ${t.empty}
+                </h3>
+
+                <br>
+
+                <a href="products.html">
+                    ${t.continueShopping}
+                </a>
+
+            </div>
+        `;
+
+        placeButton.disabled = true;
+
+        return;
+    }
+
+
+    placeButton.disabled = false;
+
+    let total = 0;
+
+
+    basket.forEach(function(item) {
+
+        const price =
+            Number(item.price);
+
+        const quantity =
+            Number(item.quantity);
+
+        const itemTotal =
+            price * quantity;
+
+        total += itemTotal;
+
+
+        const element =
+            document.createElement("div");
+
+        element.className =
+            "order-item";
+
+
+        element.innerHTML = `
+
+            <span class="order-item-name">
+
+                ${item.name}
+
+                ×
+
+                ${quantity}
+
+            </span>
+
+
+            <span class="order-item-price">
+
+                ${itemTotal} EGP
+
+            </span>
+
+        `;
+
+
+        container.appendChild(element);
+
+    });
+
+
+    totalElement.textContent =
+        total + " EGP";
+
+}
+
+
+// =====================================
+// PLACE ORDER
+// =====================================
+
+document
+    .getElementById("orderForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const basket =
+                getBasket();
+
+
+            if (basket.length === 0) {
+
+                alert(
+                    translations[currentLanguage].emptyAlert
+                );
+
+                return;
+            }
+
+
+            const order = {
+
+                customer: {
+
+                    name:
+                        document
+                            .getElementById("name")
+                            .value
+                            .trim(),
+
+                    phone:
+                        document
+                            .getElementById("phone")
+                            .value
+                            .trim(),
+
+                    city:
+                        document
+                            .getElementById("city")
+                            .value
+                            .trim(),
+
+                    address:
+                        document
+                            .getElementById("address")
+                            .value
+                            .trim(),
+
+                    notes:
+                        document
+                            .getElementById("notes")
+                            .value
+                            .trim()
+
+                },
+
+                products:
+                    basket
+
+            };
+
+
+            const button =
+                document.querySelector(".place-order");
+
+
+            button.disabled = true;
+
+            button.textContent =
+                translations[currentLanguage].placing;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://127.0.0.1:5000/api/orders",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(order)
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.error ||
+                        "Could not place order"
+                    );
+
+                }
+
+
+                // REMOVE BASKET
+
+                localStorage.removeItem(
+                    "beautyBarBasket"
+                );
+
+
+                // SUCCESS MESSAGE
+
+                const t =
+                    translations[currentLanguage];
+
+
+                document
+                    .getElementById("checkoutContent")
+                    .innerHTML = `
+
+                    <div class="box success">
+
+                        <h2>
+                            ${t.success}
+                        </h2>
+
+                        <p>
+                            ${t.thankYou}
+                        </p>
+
+                        <div class="order-number">
+
+                            ${t.orderId}
+
+                            BB-${data.order_id}
+
+                        </div>
+
+                        <p>
+                            ${t.pending}
+                        </p>
+
+                        <br>
+
+                        <a href="index.html">
+                            ${t.continueShopping}
+                        </a>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Order error:",
+                    error
+                );
+
+
+                alert(
+                    translations[currentLanguage].error
+                );
+
+
+                button.disabled = false;
+
+                button.textContent =
+                    translations[currentLanguage].placeOrder;
+
+            }
+
+        }
+    );
+
+
+// =====================================
+// START
+// =====================================
+
+changeLanguage(currentLanguage);
+
+</script>
+
+</body>
+</html>
